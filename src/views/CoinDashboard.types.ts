@@ -3,6 +3,7 @@ import {RestClientResponse} from 'shared/utilities/RestClient';
 
 export interface CoinState {
 	data: Coin[],
+	watchList: number[],
 	isLoading: boolean
 }
 

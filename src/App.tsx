@@ -14,7 +14,7 @@ const App: React.FC = () => {
 				<Box sx={{
 					display: 'flex',
 					height: '100vh',
-					flexDirection: 'column'
+					flexDirection: 'column',
 				}}>
 					<Header />
 					<CoinDashboard />
