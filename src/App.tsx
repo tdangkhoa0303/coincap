@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Header} from 'components';
+import {Provider} from 'react-redux';
+import store from 'shared/redux/store';
+import CoinDashboard from 'views/CoinDashboard';
+import Box from '@mui/material/Box';
+import theme from 'shared/theme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App: React.FC = () => {
+	return (
+		<Provider store={store}>
+			<ThemeProvider theme={theme}>
+				<Box sx={{
+					display: 'flex',
+					height: '100vh',
+					flexDirection: 'column'
+				}}>
+					<Header />
+					<CoinDashboard />
+				</Box>
+			</ThemeProvider>
+		</Provider>
+
+	);
 }
 
 export default App;
