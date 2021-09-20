@@ -1,13 +1,8 @@
-import React, {useCallback, useImperativeHandle, useState} from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Paper from '@mui/material/Paper';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import React, {useCallback, useState} from 'react';
 import CoinSuggestionList from './CoinSuggestionList';
 import {useCoinsState} from '../CoinDashboard.hooks';
 import {useUpdateWatchList} from './AddToWatchListButtonModal.hooks';
+import {Modal} from 'components';
 
 export type ModalRef = {
 	isOpen: boolean,
@@ -15,76 +10,39 @@ export type ModalRef = {
 }
 
 export interface AddToWatchListButtonModalProps {
-	forwardedRef: React.Ref<ModalRef>,
+	modalRef: React.RefObject<ModalRef>,
 }
 
 const AddToWatchListButtonModal: React.FC<AddToWatchListButtonModalProps> = (props) => {
-	const {forwardedRef} = props;
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const {modalRef} = props;
 	const {watchList: initialWatchList} = useCoinsState();
 	const updateWatchList = useUpdateWatchList();
 	const [internalWatchList, setInternalWatchList] = useState<number[]>(initialWatchList);
 
-	useImperativeHandle(forwardedRef, () => ({
-		isOpen,
-		setIsOpen
-	}), [isOpen, setIsOpen])
+	const closeModal = useCallback(() => {
+		if(modalRef.current) {
+			modalRef.current.setIsOpen(false);
+		}
+	}, [])
 
-	const handleCancel = useCallback(() => setIsOpen(false), [setIsOpen]);
 	const handleDone = useCallback(() => {
 		updateWatchList(internalWatchList)
-		setIsOpen(false);
-	}, [updateWatchList, internalWatchList]);
+		closeModal();
+	}, [closeModal, updateWatchList, internalWatchList]);
 
 	return (
 		<Modal
-			open={isOpen}
-			BackdropComponent={Backdrop}
-			BackdropProps={{
-				timeout: 200,
-			}}
+			ref={modalRef}
+			title="Add to Watch List"
+			onPrimaryButtonClick={handleDone}
+			onSecondaryButtonClick={closeModal}
 		>
-			<Paper sx={{
-				position: 'absolute' as 'absolute',
-				top: '50%',
-				left: '50%',
-				transform: 'translate(-50%, -50%)',
-				width: theme => theme.spacing(60),
-				boxShadow: 24,
-				p: 4,
-				outline: 'none'
-			}}>
-				<Typography variant="h5" mb={4}>
-					Add to Watch List
-				</Typography>
-				<CoinSuggestionList
-					internalWatchList={internalWatchList}
-					setInternalWatchList={setInternalWatchList}
-				/>
-				<Box
-					mt={3}
-					display="flex"
-					justifyContent="flex-end"
-				>
-					<Button variant="outlined" onClick={handleCancel}>
-						Cancel
-					</Button>
-					<Button
-						variant="contained"
-						sx={{
-							marginLeft: theme => theme.spacing(2)
-						}}
-						onClick={handleDone}
-					>
-						Done
-					</Button>
-				</Box>
-			</Paper>
+			<CoinSuggestionList
+				internalWatchList={internalWatchList}
+				setInternalWatchList={setInternalWatchList}
+			/>
 		</Modal>
 	)
 }
 
-const MemoizedAddToWatchListButtonModal = React.memo(AddToWatchListButtonModal);
-export default React.forwardRef<ModalRef, Omit<AddToWatchListButtonModalProps, "forwardedRef">>((props, ref) => (
-	<MemoizedAddToWatchListButtonModal forwardedRef={ref} {...props} />
-));
+export default React.memo(AddToWatchListButtonModal);

@@ -12,11 +12,12 @@ import {Coin} from 'shared/models/Coin';
 export interface CoinSuggestionListItemProps {
 	isInWatchList: boolean
 	setInternalWatchList:  React.Dispatch<React.SetStateAction<number[]>>,
-	item: Coin
+	item: Coin,
+	style?: React.CSSProperties,
 }
 
 const CoinSuggestionListItem: React.FC<CoinSuggestionListItemProps> = (props) => {
-	const {isInWatchList, setInternalWatchList, item} = props;
+	const {isInWatchList, setInternalWatchList, item, style} = props;
 	const {id: itemId, name, cmc_rank: rank} = item
 
 	const handleSuggestionClick = useCallback(() => {
@@ -34,6 +35,7 @@ const CoinSuggestionListItem: React.FC<CoinSuggestionListItemProps> = (props) =>
 
 	return (
 		<ListItem
+			style={style}
 			disablePadding={true}
 			key={itemId}
 			secondaryAction={

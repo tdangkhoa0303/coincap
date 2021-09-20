@@ -4,7 +4,7 @@ import AddToWatchListButtonModal, {ModalRef} from './AddToWatchListButtonModal';
 
 export interface AddToWatchListButtonViewProps {
 	onClick: VoidFunction,
-	modalRef: React.Ref<ModalRef>
+	modalRef: React.RefObject<ModalRef>
 }
 
 const AddToWatchListButtonView: React.FC<AddToWatchListButtonViewProps> = (props) => {
@@ -18,7 +18,7 @@ const AddToWatchListButtonView: React.FC<AddToWatchListButtonViewProps> = (props
 			>
 				ADD TO WATCH LIST
 			</Button>
-			<AddToWatchListButtonModal ref={modalRef} />
+			<AddToWatchListButtonModal modalRef={modalRef} />
 		</>
 	)
 }

@@ -9,7 +9,12 @@ export type HeaderProps = {};
 
 const Header: React.FC<HeaderProps> = () => {
 	return (
-		<AppBar position="static">
+		<AppBar
+			position="static"
+			sx={{
+				backgroundColor: 'none'
+			}}
+		>
 			<Toolbar>
 				<IconButton>
 					<Logo />
