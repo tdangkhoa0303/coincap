@@ -2,6 +2,10 @@
 
 Simple coin dashboard with ReactJs
 
+## Demo
+- FE: https://cif84.csb.app
+- BE: https://d7zco.sse.codesandbox.io
+
 ## Screenshots
 
 ![Screen Shot 2021-09-20 at 02 55 01](https://user-images.githubusercontent.com/51314420/133941218-ac7e1cba-05af-464a-b277-46fe226b1fc4.png)
